@@ -86,8 +86,7 @@ A separate court cycle runs an adversarial simulation with information barriers 
 
 The server runs on Render with a Postgres corpus. In production the Ukrainian corpus is searched with full-text search only, so query text never goes to an embedding provider. Hybrid search (full text plus vectors, merged with reciprocal rank fusion) is in the code but switched off.
 
-<details>
-<summary>Run it locally without Claude Code, HTTP mode, settings</summary>
+## Run it locally
 
 Dependency versions are pinned: `uv.lock` is the single source, and `requirements.txt` (stdio mode) and `requirements-hosted.txt` (Docker, with Postgres and Playwright) are exported from it with hashes.
 
@@ -107,6 +106,8 @@ python -m venv .venv
 
 HTTP mode for a hosted server: `MCP_TRANSPORT=http`, `PORT` and `UKRAINE_LAWS_API_KEY`. The image and the deployment are in `Dockerfile` and `render.yaml`.
 
+## Settings
+
 | Variable | Default | What it does |
 |---|---|---|
 | `YURKO_PROFILE` | `legal` | `legal` keeps free text away from the sources and will not start with a foreign database or a model API key; `engineering` is for development |
@@ -114,8 +115,6 @@ HTTP mode for a hosted server: `MCP_TRANSPORT=http`, `PORT` and `UKRAINE_LAWS_AP
 | `USE_PG_BACKEND`, `DATABASE_URL` | `0` | use Postgres instead of the file cache |
 | `RADA_LIVE_CHANNEL` | `1` | `0` turns off live reads from the Rada site |
 | `COURT_REGISTRY_URL`, `ERB_API_URL`, `PROZORRO_API_URL`, `PROZORRO_SEARCH_URL`, `DATA_GOV_UA_API_URL` | official endpoints | override a registry endpoint |
-
-</details>
 
 ## Development
 
