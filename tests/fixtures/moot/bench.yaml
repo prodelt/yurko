@@ -1,0 +1,3 @@
+# Тестовий профіль ролі bench для tests/unit/test_moot_tools.py (T312).
+role: bench
+model_profile: test-bench-model

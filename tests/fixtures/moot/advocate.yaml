@@ -1,0 +1,5 @@
+# Тестовий профіль ролі advocate для tests/unit/test_moot_tools.py (T312).
+# Вміст навмисно мінімальний: тест звіряє лише дайджест файла з переданим
+# role_profile_digest, а не зміст.
+role: advocate
+model_profile: test-advocate-model

@@ -1,0 +1,83 @@
+{
+ "head": {
+  "link": [],
+  "vars": [
+   "celex",
+   "eli",
+   "type",
+   "legal_type",
+   "sector",
+   "date_document",
+   "entry_into_force",
+   "end_of_validity",
+   "in_force",
+   "document_ids",
+   "oj_date",
+   "title",
+   "languages"
+  ]
+ },
+ "results": {
+  "distinct": false,
+  "ordered": true,
+  "bindings": [
+   {
+    "celex": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "32014R8888"
+    },
+    "eli": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#anyURI",
+     "value": "http://data.europa.eu/eli/reg/2014/8888/oj"
+    },
+    "type": {
+     "type": "uri",
+     "value": "http://publications.europa.eu/resource/authority/resource-type/REG"
+    },
+    "legal_type": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "R"
+    },
+    "sector": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "3"
+    },
+    "date_document": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#date",
+     "value": "2014-03-10"
+    },
+    "entry_into_force": {
+     "type": "literal",
+     "value": "2014-03-10"
+    },
+    "end_of_validity": {
+     "type": "literal",
+     "value": "9999-12-31"
+    },
+    "in_force": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "value": "1"
+    },
+    "document_ids": {
+     "type": "literal",
+     "value": "celex:32014R8888|oj:JOL_2014_070_R_0001_01"
+    },
+    "title": {
+     "type": "literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Regulation (EU) No 8888/2014 of 10 March 2014 laying down rules on registers of products placed on the market (fictional act used in tests)"
+    },
+    "languages": {
+     "type": "literal",
+     "value": "http://publications.europa.eu/resource/authority/language/BUL|http://publications.europa.eu/resource/authority/language/CES|http://publications.europa.eu/resource/authority/language/DAN|http://publications.europa.eu/resource/authority/language/DEU|http://publications.europa.eu/resource/authority/language/ELL|http://publications.europa.eu/resource/authority/language/ENG|http://publications.europa.eu/resource/authority/language/EST|http://publications.europa.eu/resource/authority/language/FIN|http://publications.europa.eu/resource/authority/language/FRA|http://publications.europa.eu/resource/authority/language/HRV|http://publications.europa.eu/resource/authority/language/HUN|http://publications.europa.eu/resource/authority/language/ITA|http://publications.europa.eu/resource/authority/language/LAV|http://publications.europa.eu/resource/authority/language/LIT|http://publications.europa.eu/resource/authority/language/MLT|http://publications.europa.eu/resource/authority/language/NLD|http://publications.europa.eu/resource/authority/language/POL|http://publications.europa.eu/resource/authority/language/POR|http://publications.europa.eu/resource/authority/language/RON|http://publications.europa.eu/resource/authority/language/SLK|http://publications.europa.eu/resource/authority/language/SLV|http://publications.europa.eu/resource/authority/language/SPA|http://publications.europa.eu/resource/authority/language/SWE"
+    }
+   }
+  ]
+ }
+}

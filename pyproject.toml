@@ -1,0 +1,165 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ukraine-laws-mcp"
+version = "2.4.0"
+description = "MCP server giving AI access to legal registries"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Mykhailo Stoliarenko", email = "stoliarenko.my@gmail.com"}]
+requires-python = ">=3.12"
+
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "ukraine",
+    "law",
+    "legislation",
+    "ai",
+    "claude",
+    "legal-tech",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Legal Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# Мінімальний набір для режиму stdio (плагін Claude Code): те, що імпортує
+# `server.py`, і нічого зайвого. Postgres і браузер — окремі extras нижче, а не
+# частина базового встановлення. Єдине джерело версій — `uv.lock`;
+# `requirements.txt` експортується з нього (`uv export`, див. його заголовок), а
+# `tests/test_dependency_pins.py` ловить розбіжність.
+dependencies = [
+    "fastmcp>=4.0,<5",
+    "pydantic>=2.0.0,<3",
+    "requests>=2.31.0,<3",
+    "beautifulsoup4>=4.12.0,<5",
+    # lxml розбирає й XML джерел (Akoma Ntoso / LegalDocML, XHTML Cellar):
+    # мажорну версію тримаємо в межах, перевірених повним набором
+    # тестів (5.x — холодний аудит 29.09.2026, 6.x — `.venv-dev`).
+    "lxml>=5.0.0,<7",
+    "starlette>=0.35.0",
+    "uvicorn>=0.27.0",
+    "pypdf>=6.0",
+]
+
+[project.optional-dependencies]
+# Запасной путь чтения печатной страницы Ради через браузер. Обязательной
+# зависимостью быть не может: пакет тянет отдельную сборку Chromium, а код
+# ветку без него проходит — импорт ленивый и его отсутствие возвращает None
+# (`scraper.py:_try_playwright`), то есть один канал деградирует, остальные
+# работают (принцип IX). Продукту, который ставит юрист, браузер не нужен.
+browser = [
+    "playwright>=1.40.0",
+]
+postgres = [
+    "psycopg[binary,pool]>=3.1.0",
+    "pgvector>=0.2.5",
+    "alembic>=1.13.0",
+    "SQLAlchemy>=2.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black==26.5.1",   # пин: CI и локально должны форматировать одинаково
+    "flake8>=6.0.0",
+    "mypy==2.3.1",     # пин: разрыв в мажорной версии ронял CI
+    "types-requests>=2.31.0",
+    "pre-commit>=3.0.0",
+    "psycopg[binary,pool]>=3.1.0",
+    "pgvector>=0.2.5",
+    "alembic>=1.13.0",
+    "SQLAlchemy>=2.0.0",
+]
+docs = [
+    "sphinx>=6.0.0",
+    "sphinx-rtd-theme>=1.2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/prodelt/yurko"
+Documentation = "https://github.com/prodelt/yurko/tree/main/docs"
+Repository = "https://github.com/prodelt/yurko"
+Issues = "https://github.com/prodelt/yurko/issues"
+Changelog = "https://github.com/prodelt/yurko/releases"
+
+[project.scripts]
+# Will be enabled in v2.1
+# ukraine-laws-mcp = "ukraine_laws.cli.main:main"
+
+[tool.setuptools]
+# Входи лежать у корені, решта — пакетами. Повноту тримає tests/test_packaging.py.
+py-modules = ["server", "server_env"]
+packages = ["core", "registries", "search", "storage", "sources"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+# Flat layout: black walks the repo root, so the new modules and the sources/
+# package are covered by the same run as everything else. Nothing is excluded.
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Same reasoning as black: `ruff check .` from the root already reaches
+# sources/, legal_orders.py, citations.py and provenance.py. What this section
+# adds is a fixed rule set, so the gate does not drift with the ruff default.
+extend-exclude = ["migrations", "supabase"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B"]
+ignore = [
+    # Line length is black's job; ruff flagging it too only produces noise.
+    "E501",
+    # `raise ... from` inside an except block is a style we apply where it helps
+    # a reader, not a rule: several deliberate re-raises drop the cause on purpose.
+    "B904",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests import the module under test after mutating sys.path; the import cannot
+# move to the top of the file without breaking the flat layout.
+"tests/*" = ["E402"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+# The new boundary modules carry the contract; they are typed strictly, while the
+# existing flat modules stay at the project's baseline until they are touched.
+[[tool.mypy.overrides]]
+module = ["core.legal_orders", "core.provenance", "core.source_endpoints", "core.citations", "sources.*"]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --strict-markers"
+asyncio_mode = "auto"
+markers = [
+    "live: needs outgoing access to official sources; runs only with YURKO_LIVE=1",
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["*/tests/*", "scripts/*", "migrations/*"]

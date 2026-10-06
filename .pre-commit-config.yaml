@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black-check
+        name: black --check
+        entry: black --check
+        language: system
+        types: [python]

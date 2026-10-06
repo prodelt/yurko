@@ -1,0 +1,136 @@
+name: Ingest laws into Supabase
+
+# Loads Ukrainian law texts (+ Gemini embeddings) into the Supabase Postgres
+# backend. Runs on GitHub-hosted runners, which — unlike sandboxed dev
+# environments — have open egress to both zakon.rada.gov.ua and the Supabase
+# pooler, so this is the zero-budget, no-local-machine ingestion path.
+#
+# Requires DATABASE_URL set as a Secret OR Variable in:
+#   Settings → Secrets and variables → Actions
+#
+#   DATABASE_URL    Supabase Transaction pooler URI (IPv4, port 6543).
+#                   User postgres.<ref>, host aws-0-eu-west-1.pooler.supabase.com, port 6543, db postgres.
+#                   Note: URL-encode special chars in password (',' -> %2C, '@' -> %40, etc.)
+#   GOOGLE_API_KEY  Google Gemini API key (free tier) for embeddings. Optional:
+#                   without it, ingestion is FTS-only (still works).
+#
+# Modes (workflow_dispatch input):
+#   full      fetch+store selected laws, chunk 0-article laws, then embed gaps (default)
+#   backfill  no network fetch — chunk 0-article laws + embed gaps from existing DB rows
+#   embed     embed gaps only (resumable; the daily schedule uses this to self-heal)
+#   eval      run the hybrid-search quality eval (evals/golden.json) against the DB
+#   verify    no DB/embed work — curl the deployed server's /metrics and print the
+#             backend field (uses the runner's open egress to reach Render)
+#
+# The DB schema itself is applied via supabase/migrations/ — this workflow
+# only loads data. --ensure-schema also bootstraps a fresh DB idempotently.
+
+on:
+  workflow_dispatch:
+    inputs:
+      laws:
+        description: "Space-separated law_ids to ingest, or 'all' for the full registry."
+        required: false
+        default: "all"
+      mode:
+        description: "full | backfill | embed | eval | verify"
+        required: false
+        default: "full"
+      metrics_url:
+        description: "Base URL of the deployed server (mode=verify), e.g. https://mcp.onrender.com"
+        required: false
+        default: "https://mcp.onrender.com"
+  schedule:
+    # Daily self-heal: drain any embeddings the Gemini free-tier daily quota
+    # deferred. Each run is embed-only (no fetch) and resumable, so the corpus
+    # finishes embedding within a few days without manual intervention.
+    - cron: "17 3 * * *"
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      # Accept DATABASE_URL from either Secrets or Variables (vars takes precedence if secret absent)
+      DATABASE_URL: ${{ secrets.DATABASE_URL || vars.DATABASE_URL }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY || vars.GOOGLE_API_KEY }}
+      # Scheduled runs only top up embeddings; dispatch runs honour the chosen mode.
+      MODE: ${{ github.event.inputs.mode || 'embed' }}
+      LAWS: ${{ github.event.inputs.laws || 'all' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify deployed /metrics (mode=verify — uses runner's open egress)
+        if: ${{ env.MODE == 'verify' }}
+        env:
+          METRICS_URL: ${{ github.event.inputs.metrics_url }}
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+        run: |
+          # Explicit input wins; otherwise the RENDER_URL secret (same one
+          # keepalive.yml pings). The old mcp.onrender.com default was a
+          # placeholder that 404s.
+          if [ "$METRICS_URL" = "https://mcp.onrender.com" ]; then METRICS_URL=""; fi
+          URL="${METRICS_URL:-$RENDER_URL}"; URL="${URL%/}"
+          if [ -z "$URL" ]; then
+            echo "::error::Set the metrics_url input or the RENDER_URL secret."
+            exit 1
+          fi
+          echo "GET <deploy-url>/metrics"
+          code=$(curl -s -o /tmp/m.json -w '%{http_code}' --max-time 30 "$URL/metrics" || echo 000)
+          echo "HTTP $code"
+          echo "----- parsed -----"
+          python -c "import json; d=json.load(open('/tmp/m.json')); [print(f'{k:14}=', d.get(k)) for k in ('version','backend','pg_backend','pg_error')]" || { echo "could not parse JSON:"; cat /tmp/m.json; }
+
+      - name: Guard — DATABASE_URL must be set
+        if: ${{ env.MODE != 'verify' }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::DATABASE_URL is not set."
+            echo "Add it under: Settings → Secrets and variables → Actions"
+            echo "  as a Secret (recommended) or Variable."
+            echo "  Use the Supabase Transaction pooler URI: user postgres.<ref>, host aws-0-eu-west-1.pooler.supabase.com, port 6543."
+            exit 1
+          fi
+          echo "Mode: $MODE"
+
+      - name: Install dependencies
+        if: ${{ env.MODE != 'verify' }}
+        run: pip install -e ".[postgres]"
+
+      - name: Install Chromium (Playwright fallback for laws print_url can't serve)
+        if: ${{ env.MODE == 'full' }}
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run
+        if: ${{ env.MODE != 'verify' }}
+        run: |
+          set -e
+          case "$MODE" in
+            full)
+              if [ "$LAWS" = "all" ] || [ -z "$LAWS" ]; then
+                python scripts/ingest.py --ensure-schema --all
+              else
+                args=""
+                for id in $LAWS; do args="$args --law $id"; done
+                python scripts/ingest.py --ensure-schema $args
+              fi
+              python scripts/ingest.py --backfill-articles --split-giants --embed-missing
+              ;;
+            backfill)
+              python scripts/ingest.py --ensure-schema --backfill-articles --split-giants --embed-missing
+              ;;
+            embed)
+              python scripts/ingest.py --embed-missing
+              ;;
+            eval)
+              python scripts/eval_search.py
+              python scripts/bench_verify.py
+              ;;
+            *)
+              echo "::error::Unknown mode '$MODE' (expected full|backfill|embed|eval)"
+              exit 1
+              ;;
+          esac

@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  lint-and-unit:
+    name: Lint + unit tests (offline)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Black
+        run: black --check .
+      # Версия ruff закреплена: инструмента нет в uv.lock.
+      - name: Ruff
+        run: pipx run ruff==0.15.10 check .
+      # Этот перечень — единственный источник списка модулей для mypy.
+      - name: Mypy (gate modules)
+        run: mypy server.py server_env.py core registries search storage sources
+      - name: Pytest (unit, offline)
+        run: pytest -q
+
+  integration:
+    name: Integration tests (Postgres + pgvector)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: pg
+          POSTGRES_DB: ukraine_laws
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ukraine_laws"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:pg@localhost:5432/ukraine_laws
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Pytest (integration)
+        run: pytest -q tests/test_repository_pg.py tests/test_ingestion.py

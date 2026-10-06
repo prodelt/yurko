@@ -1,0 +1,184 @@
+{
+  "name": "search-relevance",
+  "version": "1.2.0",
+  "contract_version": "3.1.0",
+  "created": "2026-09-08",
+  "description": "Проверка релевантности выдачи поиска (FR-413, FR-414, SC-403). Каждый элемент — запрос и документ, который ОБЯЗАН оказаться в выдаче. Факт ответа источника проверкой не является: прогон 2026-09-07 записал возможности проверенными, потому что источник отвечал, — и три из них выдавали не то, что спросили. Здесь проверка проходит только тогда, когда в выдаче есть заведомо известный документ.",
+  "why_a_script_and_not_a_test": "Живая сеть в тестах запрещена (принцип V). Этот набор прогоняется скриптом scripts/eval_search_relevance.py, а отчёт ложится в .planning/ — как и остальные живые пробы.",
+  "negative_cases_are_the_point": "Элемент с expect=\"refusal\" проверяет вторую половину правила: источник, который ответил чем-то посторонним, обязан получить отказ, а не выдачу. Без этих элементов набор доказывал бы только, что поиск иногда работает.",
+  "runner": "scripts/eval_search_relevance.py",
+  "cases": [
+    {
+      "case_id": "echr-soering",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "14038/88"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "appno",
+        "value": "14038/88"
+      },
+      "known_document": "Soering v. the United Kingdom, заява 14038/88",
+      "why": "прогон 2026-09-07 объявлял операцию проверенной, а выдача на пять разных номеров была одинаковой и запрошенной заявы не содержала (T215)"
+    },
+    {
+      "case_id": "echr-tyrer",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "5856/72"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "appno",
+        "value": "5856/72"
+      },
+      "known_document": "Tyrer v. the United Kingdom, заява 5856/72",
+      "why": "второй номер нужен, чтобы отличить работающий фильтр от совпадения: две разные заявы обязаны дать две разные выдачи"
+    },
+    {
+      "case_id": "echr-goodwin",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "28957/95"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "appno",
+        "value": "28957/95"
+      },
+      "known_document": "Christine Goodwin v. the United Kingdom, заява 28957/95",
+      "why": "третий номер, другое десятилетие и другая форма записи в HUDOC"
+    },
+    {
+      "case_id": "echr-salduz",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "36391/02"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "appno",
+        "value": "36391/02"
+      },
+      "known_document": "Salduz v. Turkey, заява 36391/02",
+      "why": "тот же фильтр на решении Большой палаты другого государства"
+    },
+    {
+      "case_id": "echr-hirst",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "74025/01"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "appno",
+        "value": "74025/01"
+      },
+      "known_document": "Hirst v. the United Kingdom (no. 2), заява 74025/01",
+      "why": "пятый номер: пять разных заяв обязаны дать пять разных выдач"
+    },
+    {
+      "case_id": "echr-nonexistent",
+      "legal_order": "ECHR",
+      "tool": "search_decisions",
+      "args": {
+        "case_number": "99999/99"
+      },
+      "expect": "refusal",
+      "known_document": "такой заявы нет",
+      "why": "источник обязан ответить отказом, а не подборкой по умолчанию: результат не по запросу хуже пустого (принцип III)"
+    },
+    {
+      "case_id": "cjeu-asjp-card",
+      "legal_order": "EU",
+      "tool": "get_case",
+      "args": {
+        "case_number": "C-64/16"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "celex",
+        "value": "62016CJ0064"
+      },
+      "known_document": "решение по делу C-64/16",
+      "why": "маршрут «номер дела → CELEX» — первое звено того пути, который заменяет ECLI из памяти"
+    },
+    {
+      "case_id": "cjeu-xx-century-card",
+      "legal_order": "EU",
+      "tool": "get_case",
+      "args": {
+        "case_number": "C-415/93"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "celex",
+        "value": "61993CJ0415"
+      },
+      "known_document": "решение по делу C-415/93",
+      "why": "год считался как 2093, и ответ «дело не опубликовано» был ложным"
+    },
+    {
+      "case_id": "cjeu-appeal-card",
+      "legal_order": "EU",
+      "tool": "get_case",
+      "args": {
+        "case_number": "C-50/00 P"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "celex",
+        "value": "62000CJ0050"
+      },
+      "known_document": "решение по делу C-50/00 P",
+      "why": "суффикс апелляции отбрасывал весь номер: апелляции Суду ЄС были недоступны как класс"
+    },
+    {
+      "case_id": "cjeu-general-court-card",
+      "legal_order": "EU",
+      "tool": "get_case",
+      "args": {
+        "case_number": "T-177/01"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "celex",
+        "value": "62001TJ0177"
+      },
+      "known_document": "решение Загального суду у справі T-177/01",
+      "why": "Загальний суд — отдельный форум со своей формой CELEX (TJ)"
+    },
+    {
+      "case_id": "cjeu-unknown-case-card",
+      "legal_order": "EU",
+      "tool": "get_case",
+      "args": {
+        "case_number": "C-9999/99"
+      },
+      "expect": "not_published",
+      "known_document": "такого дела нет",
+      "why": "отсутствие публикации объявляется отсутствием публикации, а не выдаётся пустой карточкой за найденное"
+    },
+    {
+      "case_id": "ua-rada-resolve",
+      "legal_order": "UA",
+      "tool": "resolve_law_id",
+      "args": {
+        "query": "Про публічні закупівлі"
+      },
+      "expect": "hit",
+      "must_contain": {
+        "field": "id",
+        "value": "922-19"
+      },
+      "known_document": "Закон України «Про публічні закупівлі», id 922-19",
+      "why": "единственный источник, где поиск по названию действительно работает; элемент сторожит регрессию"
+    }
+  ]
+}

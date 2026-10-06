@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "yurko": {
+      "command": ".venv/Scripts/python.exe",
+      "args": [
+        "server_env.py"
+      ],
+      "env": {
+        "YURKO_PROFILE": "legal",
+        "YURKO_LAUNCH_MODE": "repo-engineering",
+        "USE_PG_BACKEND": "0",
+        "EMBEDDING_PROVIDER": "null",
+        "MCP_TRANSPORT": "stdio",
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  }
+}

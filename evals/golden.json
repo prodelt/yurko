@@ -1,0 +1,60 @@
+{
+  "description": "Golden queries for hybrid-search quality. Each query lists the article(s) a lawyer would expect in the top-k. Run: python scripts/eval_search.py",
+  "k": 5,
+  "queries": [
+    {
+      "id": "cku-625-inflation",
+      "query": "прострочення виконання грошового зобов'язання інфляційні втрати три проценти річних",
+      "law_id": "435-15",
+      "expected": [{"law_id": "435-15", "article_num": "625"}]
+    },
+    {
+      "id": "cku-625-no-filter",
+      "query": "боржник прострочив грошове зобов'язання індекс інфляції три проценти річних",
+      "law_id": null,
+      "expected": [{"law_id": "435-15", "article_num": "625"}]
+    },
+    {
+      "id": "cku-549-penalty",
+      "query": "поняття неустойки штраф пеня",
+      "law_id": "435-15",
+      "expected": [{"law_id": "435-15", "article_num": "549"}]
+    },
+    {
+      "id": "cku-23-moral",
+      "query": "відшкодування моральної шкоди",
+      "law_id": "435-15",
+      "expected": [{"law_id": "435-15", "article_num": "23"}]
+    },
+    {
+      "id": "cku-257-limitation",
+      "query": "загальна позовна давність тривалість три роки",
+      "law_id": "435-15",
+      "expected": [{"law_id": "435-15", "article_num": "257"}]
+    },
+    {
+      "id": "gku-230-sanctions",
+      "query": "штрафні санкції за порушення господарських зобов'язань",
+      "law_id": "436-15",
+      "expected": [{"law_id": "436-15", "article_num": "230"}]
+    },
+    {
+      "id": "zu922-41-contract-change",
+      "query": "зміна істотних умов договору про закупівлю",
+      "law_id": "922-19",
+      "expected": [{"law_id": "922-19", "article_num": "41"}]
+    },
+    {
+      "id": "kmu1178-contract-change",
+      "query": "зміна істотних умов договору про закупівлю воєнний стан",
+      "law_id": "1178-2022-п",
+      "expected": [{"law_id": "1178-2022-п"}]
+    },
+    {
+      "id": "kmu1275-defense",
+      "query": "особливості оборонних закупівель воєнний стан",
+      "law_id": null,
+      "expected": [{"law_id": "1275-2022-п"}]
+    }
+  ]
+}

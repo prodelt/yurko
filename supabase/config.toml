@@ -1,0 +1,41 @@
+# Supabase project config — consumed by the Supabase CLI and the GitHub
+# integration. The GitHub integration applies every SQL file under
+# supabase/migrations/ to the linked database (preview branch per git branch,
+# production on merge to the production branch).
+#
+# project_id is the local CLI identifier; link your own project with
+# `supabase link --project-ref <your-project-ref>`.
+project_id = "yurko"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+# Supabase production runs Postgres 15. Keep local dev in lockstep.
+major_version = 15
+
+[db.pooler]
+enabled = true
+# Transaction mode (port 6543) is what the MCP server uses in prod via
+# DATABASE_URL — matches the IPv4 Session/Transaction pooler.
+default_pool_size = 15
+max_client_conn = 100
+
+[studio]
+enabled = true
+port = 54323
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+
+[analytics]
+enabled = false

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.venv-dev/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Кеш текстів завантажується під час роботи; laws.json — частина пакета
+cache/texts/
+cache/open_data/
+cache/court_decisions/
+cache/rada/
+cache/lv_frozen_assets/
+!cache/laws.json
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Секрети
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Локальні налаштування Claude Code
+.claude/

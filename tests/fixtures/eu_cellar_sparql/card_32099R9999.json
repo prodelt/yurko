@@ -1,0 +1,44 @@
+{
+ "head": {
+  "link": [],
+  "vars": [
+   "celex",
+   "eli",
+   "type",
+   "legal_type",
+   "sector",
+   "date_document",
+   "entry_into_force",
+   "end_of_validity",
+   "in_force",
+   "document_ids",
+   "oj_date",
+   "title",
+   "languages"
+  ]
+ },
+ "results": {
+  "distinct": false,
+  "ordered": true,
+  "bindings": [
+   {
+    "entry_into_force": {
+     "type": "literal",
+     "value": ""
+    },
+    "end_of_validity": {
+     "type": "literal",
+     "value": ""
+    },
+    "document_ids": {
+     "type": "literal",
+     "value": ""
+    },
+    "languages": {
+     "type": "literal",
+     "value": ""
+    }
+   }
+  ]
+ }
+}

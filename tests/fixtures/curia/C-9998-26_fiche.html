@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+    	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CURIA - Case information
+        </title>
+        <link class="component" href="/juris/a4j/s/3_3_3.Finalorg/richfaces/renderkit/html/css/basic_classes.xcss/DATB/eAF7Gd13!sLel7cBGVAF8w__" rel="stylesheet" type="text/css" /><link class="component" href="/juris/a4j/s/3_3_3.Finalorg/richfaces/renderkit/html/css/extended_classes.xcss/DATB/eAF7Gd13!sLel7cBGVAF8w__" media="rich-extended-skinning" rel="stylesheet" type="text/css" /><script id="org.ajax4jsf.queue_script" type="text/javascript">if (typeof A4J != 'undefined') { if (A4J.AJAX) { with (A4J.AJAX) {if (!EventQueue.getQueue('org.richfaces.queue.global')) { EventQueue.addQueue(new EventQueue('org.richfaces.queue.global',null,{'ignoreDupResponses':true} )) };}}};</script><link rel="shortcut icon" type="image/x-icon" href="/juris/img/common/favicon16.ico" />
+        <link rel="icon" type="image/gif" href="/juris/img/common/logo.gif" />
+            <link rel="stylesheet" href="/juris/css/style_defaut.css?v=3.5.8" type="text/css" media="screen" />
+            <link rel="stylesheet" href="/juris/css/style_print.css?v=3.5.8" type="text/css" media="print" />
+            <link rel="stylesheet" href="/juris/css/popup_defaut.css?v=3.5.8" type="text/css" />
+        <script type="text/javascript" src="/juris/js/common/richfaces/prototype.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/jquery.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/a4j.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/browser_info.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/modalPanel.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/modalPanelBorder.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/skinning.js"></script>   
+        <script type="text/javascript" src="/juris/js/common/richfaces/utils.js"></script>
+        <script type="text/javascript">
+        //<![CDATA[ 
+            A4J.AJAX.onExpired = function(loc,message) { 
+            alert("Page expired. The page will be reloaded.");
+            document.location.reload();
+            };
+            
+            function isSessionExpired() {};
+            
+            // Vérifie que l'url de la page courante contient l'ID de conversation
+            function checkCIDParam(){
+            
+                var url = window.location.href;
+                // Vérification de l'url récupérée
+                url= unescape(url);
+                var regex = new RegExp("^([A-Za-z0-9+\s+/+\.+:\?_])*$");
+                // Si l'url est vérifiée
+                if(regex.test(url)){
+                	url = window.location.href;
+	                if(url.indexOf("cid") == -1){  
+	                    // Si l'ID de conversation est absent alors on ajoute l'ID de conversation courant à l'url courante
+	                    var newUrl = url + ((url.indexOf("?") == -1) ? "?" : "\&amp;") + "cid=10905611";
+	                    window.location.href = newUrl;
+	                }
+	                else if(url.indexOf("recherche.jsf") != -1 && url.indexOf("&") != -1){
+	                	// On supprime tous les paramètres existants et on ajoute uniquement l'id de la conversation
+	                	var newUrl = url.substr(0,url.indexOf("?")) + "";
+	                	window.location.href = newUrl;
+	                }
+                }
+            }
+            
+            // On appel la fonction JS qui ajoute le conversation id
+            jQuery(document).ready(function() {
+            	checkCIDParam();
+            });
+
+        //]]>
+        </script>
+                <script type="text/javascript" src="/juris/js/common/jquery.js?v=3.5.8"></script>
+                <script type="text/javascript" src="/juris/js/common/toggle_left_column.js?v=3.5.8"></script>
+                <script type="text/javascript" src="/juris/js/common/jquery-tooltip.js?v=3.5.8"></script>
+                <script type="text/javascript" src="/juris/js/formulaire.js?v=3.5.8"></script>
+        
+    </head>
+    <body id="bodyPage">
+		<input type="hidden" name="version" value="3.5.8" />
+    <div style="width:expression((((document.body.clientWidth-18)/document.body.clientWidth)*100) +&quot;%&quot;);overflow-x : auto;">
+    
+         <div id="waitBlock" class="waitBlock" style="display:none;">  
+         </div>
+         <div id="waitBlockContainer" class="waitBlockContainer" style="display:none;text-align:center;padding-top:10px;background-image:url(/juris/img/loading.gif);height:40px;background-position:center center;background-repeat:no-repeat;">
+                
+        </div><span id="vide"></span><span id="pagePrincipale">
+<form id="mainForm" name="mainForm" method="post" action="/juris/fiche.jsf" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="mainForm" value="mainForm" />
+
+            
+        <div id="header">
+    
+   
+    <script defer="defer" src="//europa.eu/webtools/load.js" type="text/javascript"></script>
+    <div id="headerContent" style="width:100%">
+    <a name="topOfResultDiv"></a>
+    <table width="100%">
+    <tr>
+    <td width="170px">
+    <div id="header_logo">
+      <img src="/juris/img/common/logo_curia.png?v=1" alt=" " />
+    </div>
+    </td>
+    <td valign="middle">
+    <div id="header_title_infoCuria">InfoCuria</div>
+    <div id="header_title">Case-law</div>
+    </td>
+    <td valign="bottom" align="right">
+    <div id="header_lang">
+     <img src="./img/common/icon_languageselection.gif?v=1" onerror="this.src='../img/common/icon_languageselection.gif?v=1'" alt="lng_sel" class="lng_sel" /><select name="mainForm:j_id13" size="1" onchange="displayWaitBlock();;A4J.AJAX.Submit('mainForm',event,{'similarityGroupingId':'mainForm:j_id15','actionUrl':'/juris/fiche.jsf','oncomplete':function(request,event,data){hideWaitBlock();},'parameters':{'mainForm:j_id15':'mainForm:j_id15'} } )">	<option value="bg">&#1073;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080; (bg)</option>
+	<option value="es">espa&ntilde;ol (es)</option>
+	<option value="cs">&#269;e&#353;tina (cs)</option>
+	<option value="da">dansk (da)</option>
+	<option value="de">Deutsch (de)</option>
+	<option value="et">eesti keel (et)</option>
+	<option value="el">&#949;&#955;&#955;&#951;&#957;&#953;&#954;&#940; (el)</option>
+	<option value="en" selected="selected">English (en)</option>
+	<option value="fr">fran&ccedil;ais (fr)</option>
+	<option value="ga">Gaeilge (ga)</option>
+	<option value="hr">hrvatski (hr)</option>
+	<option value="it">italiano (it)</option>
+	<option value="lv">latvie&#353;u valoda (lv)</option>
+	<option value="lt">lietuvi&#371; kalba (lt)</option>
+	<option value="hu">magyar (hu)</option>
+	<option value="mt">il-Malti (mt)</option>
+	<option value="nl">Nederlands (nl)</option>
+	<option value="pl">polski (pl)</option>
+	<option value="pt">portugu&ecirc;s (pt)</option>
+	<option value="ro">rom&acirc;n&#259; (ro)</option>
+	<option value="sk">sloven&#269;ina (sk)</option>
+	<option value="sl">sloven&#353;&#269;ina (sl)</option>
+	<option value="fi">suomi (fi)</option>
+	<option value="sv">svenska (sv)</option>
+</select>
+        
+    </div>
+    </td>
+    </tr>
+    </table>
+    </div>
+        </div>
+    
+        <div id="menu">
+  <div class="menubox">
+    <div class="menu_top">
+      <span class="first"></span>
+      <span class="last"></span>
+    </div>
+    <div class="menu_title">
+    	<div class="menu_align"><img src="/juris/img/common/icon_menu.gif?v=1" />
+        	<p>Sections</p>
+        </div>
+    </div>
+    <ul>
+      <li><a href="#section_titre">Title</a>
+      </li>
+      
+      <li><a href="#section_documents">Documents in the Case</a>
+      </li>
+      <li><a href="#section_analyse">Legal analysis of the decision or of the case</a>
+      </li>
+    </ul>
+    <div class="menu_bottom">
+      <span class="first"></span>
+      <span class="last"></span>
+    </div>
+  </div>
+        </div>
+        <div id="main">
+            <div id="navigationpath">
+    <span>
+      <strong><a href="http://curia.europa.eu/jcms/jcms/j_6?PortalAction_x_000_userLang=en">Home</a> &gt; <a href="/juris/fiche.jsf?nat=or&amp;mat=or&amp;pcs=Oor&amp;jur=C%2CT%2CF&amp;for=&amp;jge=&amp;dates=&amp;language=en&amp;pro=&amp;cit=none%252CC%252CCJ%252CR%252C2008E%252C%252C%252C%252C%252C%252C%252C%252C%252C%252Ctrue%252Cfalse%252Cfalse&amp;oqp=&amp;td=%3BALL&amp;avg=&amp;id=C%3B9998%3B26%3BRP%3B1%3BP%3B1%3BC2026%2F9998%2FP&amp;lg=&amp;actionMethod=fiche.xhtml%3AformController.resetAction" id="mainForm:j_id40">Search form</a> &gt; <a href="/juris/liste.jsf?nat=or&amp;mat=or&amp;pcs=Oor&amp;jur=C%2CT%2CF&amp;for=&amp;jge=&amp;dates=&amp;language=en&amp;pro=&amp;cit=none%252CC%252CCJ%252CR%252C2008E%252C%252C%252C%252C%252C%252C%252C%252C%252C%252Ctrue%252Cfalse%252Cfalse&amp;oqp=&amp;td=%3BALL&amp;avg=&amp;lg=&amp;page=1" id="mainForm:j_id43">List of results</a> &gt; Case information
+         </strong>
+    </span>
+            </div>
+                <input type="hidden" id="lienImage" name="lienImage" value="/juris" />
+                <a href="#" id="toggle_link"><img class="toggle_img" src="/juris/img/arrow_left.gif" /></a>
+            	<div id="printer"><a id="mainForm:link1" name="mainForm:link1" href="#" alt="Start printing" onclick="window.open('./fiche_print.jsf&amp;id=C;9998;26;RP;1;P;1;C2026/9998/P');" title="Start printing" class="btn_impression">Start printing</a>                     
+                </div>
+
+                <div id="content">  
+                     
+                    <div class="details_header">
+                        <div class="details_decision_title">
+                            <a name="section_titre"></a>Placeholder<br/>Case C-9998/26<br />
+                        </div>
+                    </div>
+    <div class="details_zone" id="details_docs">
+        <div class="detail_zone_header">
+            <a href="#topOfResultDiv"><img src="img/common/btn_up.gif?v=1" alt="Top of the page" title="Top of the page" /></a>
+             
+            <a name="section_documents"></a>Documents in the Case
+        </div>
+		<div class="detail_zone_content">
+		<i>
+			<a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available
+			</a>
+		</i>
+		</div>
+        
+    </div>
+    <div class="details_zone" id="details_decision">
+        <div class="detail_zone_header">
+            <a href="#topOfResultDiv"><img src="img/common/btn_up.gif?v=1" alt="Top of the page" title="Top of the page" /></a>
+             
+            <a name="section_analyse"></a>Legal analysis of the decision or of the case
+        </div>
+         
+        <div class="detail_zone_content">
+        
+        
+		<h3>Reports of Cases</h3> 
+		<p>
+				
+		
+			<i>	
+			<a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available
+                   							</a>
+                   							</i>
+		</p>
+								
+		        <h3>Subject-matter</h3>
+        <p>
+                 
+                <i>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </i>
+        </p>
+	<script type="text/javascript">
+                    function afficher_plan(id){
+                        var cote = document.getElementById(id);
+                        var tree = document.getElementById(id+"_tree");
+                        if(cote.style.display=="none") {
+                            cote.style.display="block";
+                            tree.style.display="none";
+                        }
+                        else{
+                            cote.style.display="none";
+                            tree.style.display="block";
+                        }
+                    }
+                </script>
+	<h3>Systematic classification scheme</h3>
+	<p> <i> <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a> </i></p><br />
+      <h2>Citations of case-law or legislation</h2>
+      <h3>References in grounds of judgment</h3>
+      <p>
+      <i>
+      <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+      </i>
+      </p>
+      <h3>Operative part</h3>
+      <p>
+      <i>
+      <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+      </i>
+      </p>
+      
+      <h3></h3>
+      <h3>Opinion</h3>
+      <p>
+      <i>
+      <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+      </i>
+      </p><br />
+        <h2>Dates
+        </h2>
+        
+        
+		<h3>Date of lodging of the application initiating proceedings
+		</h3>
+		<p><ul class="rich-datalist " id="mainForm:j_id421"><li id="mainForm:j_id421:0" class="rich-list-item ">
+                	<p>04/06/2026
+                	</p></li></ul>
+        </p>
+        
+        
+        <h3>Date of the Opinion
+        </h3>
+        <p>
+       			<i>
+       			<a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+				</i>
+       	</p>
+        
+        
+		<h3>Date of the hearing
+		</h3>
+        <p>
+        		<i><a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </i>
+        </p>
+
+        
+        
+        
+		<h3>Date of delivery
+		</h3>
+        <p>
+				<i><a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+				</i>
+        </p><br />
+        <h2>References
+        </h2>
+        <h3>Publication in the Official Journal
+        </h3>
+        <p>
+    			
+         
+                <i>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </i>
+        </p>
+        <h3>Name of the parties
+        </h3>
+        <p>Placeholder
+                <i>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');"></a>
+                </i>
+        </p>
+        <h3>Notes on Academic Writings
+        </h3>
+        <p>        
+                <i>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </i>
+        </p>
+        <br /><br />
+        <h2>Procedural Analysis Information
+        </h2>
+
+        <h3>Source of the question referred for a preliminary ruling
+        </h3>
+        <p>Tribunal judiciaire de Paris - France
+                 
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');"></a>
+                </em>
+        </p>
+        <h3>Subject matter
+        </h3>
+        <p><ul class="rich-datalist " id="mainForm:j_id492"><li id="mainForm:j_id492:0" class="rich-list-item "><span class="tooltipLink">Agriculture</span>
+	                <br /></li><li id="mainForm:j_id492:1" class="rich-list-item "><span style="white-space:pre;">  </span><span style="white-space:pre;">  </span>-  <span class="tooltipLink">Direct payments</span>
+	                <br /></li></ul>
+                
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');"></a>
+                </em>
+        </p>
+        <h3>Provisions of national law referred to
+        </h3>
+        <p>
+                 
+			<em>
+             <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+            </em>
+        </p>
+        <h3>Provisions of international law referred to
+        </h3>
+        <p>
+                 
+			<em>
+             <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+            </em>
+        </p>
+        <h3>Procedure and result
+        </h3>
+        <p><ul class="rich-datalist " id="mainForm:j_id515"><li id="mainForm:j_id515:0" class="rich-list-item ">Reference for a preliminary ruling
+                        <br /></li></ul>
+        
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');"></a>
+                </em>
+        </p>
+        <h3>Formation of the Court
+        </h3>
+        <p>
+                 
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </em>
+        </p>
+        <h3>Judge-Rapporteur
+        </h3>
+        <p>
+                 
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </em>
+        </p>
+        <h3>Advocate General
+        </h3>
+        <p>
+                 
+                <em>
+
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </em>
+        </p>
+        <h3>Language(s) of the case
+        </h3>
+        <p><ul class="rich-datalist " id="mainForm:j_id542"><li id="mainForm:j_id542:0" class="rich-list-item ">French
+                        <br /></li></ul>
+
+                 
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');"></a>
+                </em>
+        </p>
+        <h3>Language(s) of the Opinion
+        </h3>
+        <p><ul class="rich-datalist " id="mainForm:j_id550"></ul>
+
+                 
+                <em>
+                <a onclick="javascript:helpStaticPdf('http://curia.europa.eu/common/juris','en','infoNonDisponible','');">Information not available</a>
+                </em>
+        </p>
+        </div>
+    </div> 
+                </div>
+             
+        </div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="j_id1" />
+</form></span>
+      </div>
+    </body>
+</html>
