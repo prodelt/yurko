@@ -269,7 +269,8 @@ class Scraper:
                 try:
                     page = await browser.new_page()
                     await page.goto(url, wait_until="networkidle", timeout=30000)
-                    return (await page.inner_text("body")).strip()
+                    body: str = await page.inner_text("body")
+                    return body.strip()
                 finally:
                     await browser.close()
 
